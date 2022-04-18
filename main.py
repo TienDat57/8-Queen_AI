@@ -4,9 +4,11 @@ from problem.solve_CNF import CNF
 if __name__=='__main__': 
     # program = Program(4)
     problem = CNF(4, [])
-    solution = problem.solveLevel1()
-    print(problem.cnfLevel1(0, 0))
+    solution = problem.solveLevel1(0, 0)
     print(solution)
+    
+    # print(problem.cnfLevel1(0, 0))
+    #print(solution)
     #os.system("cls")
     #INPUT_DIR = './Input/input1'
     #files = [name.replace('.txt', '') for name in os.listdir(INPUT_DIR) if os.path.isfile(os.path.join(INPUT_DIR, name))]

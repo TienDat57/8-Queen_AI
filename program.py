@@ -12,10 +12,11 @@ class Program:
 
     def InputCNF(self, filename):
         filename += ".txt"
-        if os.path.isfile(os.path.join('./Input/cnf', filename)):
+        if os.path.isfile(os.path.join('./Input', filename)):
             self.finput = filename.replace(".txt", "")
-            filepath = os.path.join('./Input/cnf', filename)
+            filepath = os.path.join('./Input', filename)
             N, clause = self.readFileCNF(filepath)
+            
             if N != None and clause != None:
                 self.size = N
                 self.clause = clause
@@ -23,6 +24,10 @@ class Program:
         print('Invalid filename')
         return False
 
+    #def testInputCNF(self):
+      #  self.size = 1
+    # self.clause = [1]
+    
     def readFileCNF(self, filepath):
         if not os.path.exists(filepath):
             return None, None

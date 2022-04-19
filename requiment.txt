@@ -1,0 +1,29 @@
+-Đạt Đặng:
+	+thêm con hậu
+	+thêm label text file để nhập file input
+	+lấy ra vị trí con hậu
+	=== pip install windows-curses
+	
+
+-Phát Phạm:
+	+Viết A*
+	+Quay video
+	+Báo cáo
+	+cls code
+
+note: hàm A* input là file text, output là vị trí 8 con và file CNF.
+
+
+=====TEST=====
+
+file text:
+3
+(1, 2) (0, 0) (4, 5)
+
+# 1  2  3  4
+# 5  6  7  8
+# 9  10 11 12
+# 13 14 15 16
+
+
+

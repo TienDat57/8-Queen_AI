@@ -2,7 +2,7 @@ import os
 from problem.solve_CNF import CNF
 
 class Program:
-    def __init__(self, n:int) -> None:
+    def __init__(self, n: int = 0) -> None:
         self.numQueen = n
 
     def solveCNF(self):
@@ -15,8 +15,8 @@ class Program:
         if os.path.isfile(os.path.join('./Input', filename)):
             self.finput = filename.replace(".txt", "")
             filepath = os.path.join('./Input', filename)
-            N, clause = self.readFileCNF(filepath)
-            
+            N, clause = self.readFile(filepath)
+
             if N != None and clause != None:
                 self.size = N
                 self.clause = clause
@@ -24,40 +24,29 @@ class Program:
         print('Invalid filename')
         return False
 
-    #def testInputCNF(self):
-      #  self.size = 1
-    # self.clause = [1]
-    
-    def readFileCNF(self, filepath):
-        if not os.path.exists(filepath):
-            return None, None
-        
-        file = open(filepath, "r")
-
-        N = (int)(file.readline())
-        cnf = []
-        for _ in range(N):
-            line = file.readline()
-            tmp = line.split(' ')
-            if len(tmp) == 2:
-                cor = [int(x) for x in tmp]
-                cnf.append([cor[0]*self.numQueen + cor[1] + 1])
-            elif len(tmp) == 3:
-                cor = [int(tmp[i]) for i in range(1, len(tmp))]
-                cnf.append([-(cor[0]*self.numQueen + cor[1] + 1)])
-
+    def readFile(self, fileName):
+        if not os.path.exists(fileName):
+            return None
+        file = open(fileName, "r")
+        arrayRes = [()]
+        N = (int)(file.readline())   # number of queens
+        self.numQueen = N
+        line = file.readline()
+        invalidCharacters = "(,)"
+        for character in invalidCharacters:
+            line = line.replace(character, "")
+        tempArr = [int(x) for x in line.split(' ')]   # [0]=1 [1]=2 [2]=3 [3]=4
+        arrayRes = [x for x in zip(*[iter(tempArr)]*2)]
         file.close()
-        return N, cnf
-    
-    def positionToIndex(self, position:list):
+        return arrayRes
+
+    def positionToIndex(self, position: list):
         return [(pos[0] * self.numQueen + pos[1] + 1) for pos in position]
-    
-    def indexToPosition(self, idx:list):
+
+    def indexToPosition(self, idx: list):
         position = []
         for i in idx:
             row = (i - 1) // self.numQueen
             col = (i - 1) % self.numQueen
             position.append([row, col])
         return position
-
-

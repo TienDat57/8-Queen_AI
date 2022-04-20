@@ -1,5 +1,4 @@
 from pysat.solvers import Solver
-import random
 
 class CNF:
     def __init__(self, N: int = 8, list: list = []) -> None:
@@ -40,60 +39,29 @@ class CNF:
     def cnf_level2(self)-> list[list[int]]:
         listOfCnf = []
         for i in range(1, 9):
-            listOfCnf.append([v(i, j) for j in range(1, 9)])
+            listOfCnf.append([self.getPos(i, j) for j in range(1, 9)])
 
         for i in range(1, 9):
             for j in range(1, 9):
                 for i1 in range(i + 1, 9):
                     for j1 in range(j + 1, 9):
                         if (i - j) == (i1 - j1):
-                            listOfCnf.append([-v(i, j), -v(i1, j1)])
+                            listOfCnf.append([-self.getPos(i, j), -self.getPos(i1, j1)])
         for i in range(1, 9):
             for j in range(1, 9):
                 for k in range(j + 1, 9):
-                    listOfCnf.append([-v(i, j), -v(i, k)])
+                    listOfCnf.append([-self.getPos(i, j), -self.getPos(i, k)])
         for i in range(1, 9):
             for j in range(1, 9):
                 for k in range(j + 1, 9):
-                    listOfCnf.append([-v(j, i), -v(k, i)])
+                    listOfCnf.append([-self.getPos(j, i), -self.getPos(k, i)])
 
         for i in range(1, 9):
             for j in range(1, 9):
                 for i1 in range(1, 9):
                     for j1 in range(1, 9):
                         if (i != i1) and (j != j1) and (i + j) == (i1 + j1):
-                            listOfCnf.append([-v(i, j), -v(i1, j1)])
+                            listOfCnf.append([-self.getPos(i, j), -self.getPos(i1, j1)])
         return listOfCnf
 
-    def solveLevel1(self):
-        cnf = self.initCNF
-        case = []
-        row = [random.randint(0, self.size-1)*self.size +
-               column + 1 for column in range(self.size)]
-        while len(case) < pow(self.size, self.size):
-            while row in case:
-                row = [random.randint(0, self.size-1) *
-                       self.size + c + 1 for c in range(self.size)]
-            case.append(row)
-            print(case)
-            hold = cnf.copy()
-            for i in range(len(row)):
-                hold = add(self.cnfLevel1((row[i]-1) // self.size, i), hold)
-            s = Solver()
-            for clause in hold:
-                s.add_clause(clause)
-
-            s.solve()
-            solution = []
-            if s.get_status() == True:
-                m = s.get_model()
-                solution = [q for q in m if q > 0]
-
-            if solution != [] or len(solution) == self.size:
-                return [q for q in m if q > 0], case, cnf
-        return [], None, cnf
-
-def add(src: list, dest: list) -> list:
-    for i in src:
-        dest.append(i)
-    return dest
+    

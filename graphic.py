@@ -3,13 +3,15 @@ import pygame
 import sys
 from pygame.locals import *
 from program import Program
+import tkinter
+from tkinter import filedialog
 
 SIZE_SPACE = 70
-WIDTH = HEIGHT = 700
-WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
+WIDTH = 560
+HEIGHT = 650
 IMAGE = {}
 COLOR_WHITE = (255, 255, 255)
-COLOR_PINK = (255, 153, 153)
+COLOR_YELLOW = (204, 255, 102)
 
 
 def loadImage():
@@ -18,11 +20,14 @@ def loadImage():
 
 
 def drawQueen(window, queens):
-    print(queens)
-    # for(x, y) in queens:
-    #     window.blit(IMAGE['queen'], pygame.Rect(x * SIZE_SPACE, y * SIZE_SPACE, SIZE_SPACE, SIZE_SPACE))
-    # screen.blit(IMAGE['queen'], pygame.Rect(
-    #     queens[0][1]*SIZE_SPACE, queens[0][0]*SIZE_SPACE, SIZE_SPACE, SIZE_SPACE))
+    for(x, y) in queens:
+        window.blit(IMAGE['queen'], pygame.Rect(
+            x * SIZE_SPACE, y * SIZE_SPACE, SIZE_SPACE, SIZE_SPACE))
+
+def openDialogPath():
+    tkinter.Tk().withdraw()  # prevents an empty tkinter window from appearing
+    nameFile = filedialog.askopenfilenames(filetypes=[("Text Files", ".txt")])
+    return nameFile
 
 
 def CreateChessBoard(window, queens):
@@ -40,14 +45,13 @@ def CreateChessBoard(window, queens):
     x = 0
     for i in range(8):
         if i % 2 == 0:
-            createHorizontalRects(x, y, COLOR_WHITE, COLOR_PINK)
+            createHorizontalRects(x, y, COLOR_WHITE, COLOR_YELLOW)
             y += SIZE_SPACE
         if i % 2 == 1:
-            createHorizontalRects(x, y, COLOR_PINK, COLOR_WHITE)
+            createHorizontalRects(x, y, COLOR_YELLOW, COLOR_WHITE)
             y += SIZE_SPACE
-    for(x, y) in queens:
-        print(x[0], y[0])
-    # window.blit(IMAGE['queen'], pygame.Rect(x * SIZE_SPACE, y * SIZE_SPACE, SIZE_SPACE, SIZE_SPACE))
+    if len(queens) > 1:
+        drawQueen(window, queens)
 
 
 def button(window, position, text, font, size, color, color2):
@@ -68,36 +72,38 @@ def button(window, position, text, font, size, color, color2):
     pygame.draw.rect(window, bg, (pos_x, pos_y, w, h))
     return window.blit(text_render, (pos_x, pos_y))
 
-# function add button to the screen at position x,y with width and height w,h
-
-
-def addButton(window):
-    return button(window, (200, 600), 'Solve CNF', 'Corbel', 30, COLOR_PINK, COLOR_WHITE)
-
 
 def run():
     loadImage()
+    WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
     pr = Program(8)
     pygame.init()
+    clock = pygame.time.Clock()
     pygame.display.set_caption('8 Queens Problem')
     Icon = pygame.image.load('queen.png')
     pygame.display.set_icon(Icon)
-    buttonSolve = addButton(WINDOW)
+    buttonSolve = button(WINDOW, (200, 580), 'Solve CNF',
+                         'Corbel', 30, 'red', COLOR_WHITE)
+    buttonInputFile = button(
+        WINDOW, (400, 580), 'Input File', 'Corbel', 30, COLOR_WHITE, 'gray')
     running = True
     resPos = [()]
+    nameFile = ''
     while running:
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+                running = False
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     pos = pygame.mouse.get_pos()
-                    print(pos)
                     if buttonSolve.collidepoint(pos):
-                        resPos = pr.readFile("./Input/input1.txt")
-                        print(resPos)
-                        # solveAstar()
+                        if nameFile != None:
+                            resPos = pr.readFile(nameFile[0])
+                    if buttonInputFile.collidepoint(pos):
+                        nameFile = openDialogPath()
+                        print(nameFile[0])
                     else:
                         print('No button clicked')
         CreateChessBoard(WINDOW, resPos)

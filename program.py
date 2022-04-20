@@ -50,3 +50,5 @@ class Program:
             col = (i - 1) % self.numQueen
             position.append([row, col])
         return position
+    
+    

@@ -5,10 +5,11 @@ class Node:
         self.state = state
         self.path_cost = path_cost
         self.parent = parent 
+        self.s = set(self.state.queens)
 
-    def __lt__(self, node):
-        return (self.path_cost < node.path_cost)
-    def __mt__(self, node):
-        return (self.path_cost > node.path_cost)
-    def __eq__(self, node):
-        return (self.path_cost == node.path_cost)
+    def __lt__(self, other):
+        return (self.path_cost < other.path_cost)
+    def __mt__(self, other):
+        return (self.path_cost > other.path_cost)
+    def __eq__(self, other):
+        return self.s == other.s

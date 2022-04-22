@@ -6,6 +6,7 @@ class State:
              
     def init_board(self, size: int):
         chess_board = [[]]
+        print(size)
         for i in range(size):
             for j in range(size):
                 chess_board[i][j] = True

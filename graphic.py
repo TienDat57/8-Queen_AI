@@ -73,10 +73,9 @@ def button(window, position, text, font, size, color, color2):
     return window.blit(text_render, (pos_x, pos_y))
 
 
-def run():
+def run(pr: Program):
     load_image()
     WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-    pr = Program(8)
     pygame.init()
     pygame.display.set_caption('8 Queens Problem')
     Icon = pygame.image.load('queen.png')
@@ -98,12 +97,10 @@ def run():
                 if event.button == 1:
                     pos = pygame.mouse.get_pos()
                     if buttonSolve.collidepoint(pos):
-                        if nameFile != None:
-                            resPos = pr.readFile(nameFile[0])
-                            
+                        print("oik")                            
                     if buttonInputFile.collidepoint(pos):
                         nameFile = open_dialog_path()
-                        print(nameFile[0])
+                        resPos = pr.readFile(nameFile[0])
                     else:
                         print('No button clicked')
         create_chess_board(WINDOW, resPos)

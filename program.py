@@ -1,14 +1,10 @@
 import os
 from CNF.solve_CNF import CNF
+from Astar.A_star import *
 
 class Program:
     def __init__(self, n: int = 0) -> None:
         self.numQueen = n
-
-    def solveCNF(self):
-        self.cnf_problem = CNF(self.numQueen, self.clause)
-        self.cnf_solution1 = CNF.solve_level1(self.cnf_problem)
-        # self.cnf_solution2 = self.cnf_problem.solveLevel2()
 
     def InputCNF(self, filename):
         filename += ".txt"
@@ -23,7 +19,7 @@ class Program:
                 return True
         print('Invalid filename')
         return False
-
+  
     def readFile(self, fileName):
         if not os.path.exists(fileName):
             return None

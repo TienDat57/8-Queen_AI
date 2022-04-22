@@ -1,5 +1,5 @@
 import os
-from problem.solve_CNF import CNF
+from CNF.solve_CNF import CNF
 
 class Program:
     def __init__(self, n: int = 0) -> None:
@@ -7,7 +7,7 @@ class Program:
 
     def solveCNF(self):
         self.cnf_problem = CNF(self.numQueen, self.clause)
-        self.cnf_solution1 = self.cnf_problem.solveLevel1()
+        self.cnf_solution1 = CNF.solve_level1(self.cnf_problem)
         # self.cnf_solution2 = self.cnf_problem.solveLevel2()
 
     def InputCNF(self, filename):

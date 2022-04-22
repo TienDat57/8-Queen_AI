@@ -1,21 +1,17 @@
-import random
-from CNF.cnf import cnf
+from CNF.solve_CNF import CNF
 
 class State:
-    '''
-
-    '''
-    def __init__(self, queens: list = []) -> None:
+    def __init__(self, queens: list[int] = []) -> None:
         self.queens = queens
-        
-    def initBoard(self, size: int):
+             
+    def init_board(self, size: int):
         chess_board = [[]]
         for i in range(size):
             for j in range(size):
                 chess_board[i][j] = True
         
         for queen in self.queens:
-            coor = cnf.getCoor(queen)
+            coor = CNF.getCoor(queen)
             col = coor[0] 
             row = coor[1]
 

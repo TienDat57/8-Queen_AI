@@ -1,10 +1,11 @@
+from multiprocessing.spawn import import_main_path
 import os
 from program import Program
-from problem.solve_CNF import CNF
+from CNF.solve_CNF import CNF
+
 if __name__=='__main__': 
-    # program = Program(4)
     problem = CNF(4, [])
-    solution = problem.solveLevel1()[0]
+    solution = problem.solve_level1()
     print(solution)
     
     # print(problem.cnfLevel1(0, 0))
